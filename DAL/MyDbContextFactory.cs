@@ -1,0 +1,27 @@
+﻿using System;
+using System.IO;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+
+namespace AuthSystem.DAL
+{
+    public class MyDbContextFactory : IDesignTimeDbContextFactory<MySqlContext>
+    {
+
+        MySqlContext IDesignTimeDbContextFactory<MySqlContext>.CreateDbContext(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var builder = new DbContextOptionsBuilder<MySqlContext>();
+            var connectionString = configuration.GetConnectionString("connection");
+
+            builder.UseMySql(connectionString);
+
+            return new MySqlContext(builder.Options);
+        }
+    }
+}

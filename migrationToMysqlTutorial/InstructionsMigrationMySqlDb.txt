@@ -1,0 +1,43 @@
+﻿    open terminal write "cd"
+    right click on project - reveal in finder
+    drag n drop project folder on terminal and hit enter
+    write "dotnet tool install --global dotnet-ef" to install dotnet ef and hit enter
+    in phpMyAdmin create user for database wihich will be created after we run "dotnet ef migrations add InitialCreate".
+    check if we have errors.
+    write  "dotnet ef migrations add InitialCreate" and hit enter.
+
+    if we have error
+    "Unable to create an object of type 'MySqlContext'.
+    Add an implementation of 'IDesignTimeDbContextFactory<MySqlContext>'
+    to the project, or see https://go.microsoft.com/fwlink/?linkid=851728
+    for additional patterns supported at design time." then we need implement IDesignTimeDbContextFactory(lines 16-33) in the folder with dbContext
+
+
+    public class MyDbContextFactory : IDesignTimeDbContextFactory<MyDbContext>
+    {      
+
+        MyDbContext IDesignTimeDbContextFactory<MyDbContext>.CreateDbContext(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var builder = new DbContextOptionsBuilder<MyDbContext>();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            builder.UseSqlServer(connectionString);
+
+            return new MyDbContext(builder.Options);
+        }
+    }
+
+
+
+
+    usually there is an error "Specified key was too long; max key length is 3072 bytes"
+    but the database and tables are created.
+    run "dotnet ef migrations add InitialCreate" one more time and now wi will see migrations folder
+    in our app
+
+    
