@@ -1,0 +1,34 @@
+
+        <form [formGroup]="service.formModel" autocomplete="off" (submit)="onSubmit()">
+            <div class="form-group ">
+                <label  class="required">Username</label>
+                <input class="form-control" formControlName="UserName" type="text" >
+                <label class="text-danger" *ngIf="service.formModel.get('UserName').touched && service.formModel.get('UserName').errors?.required">can't be empty</label>
+            </div>
+            <div class="form-group">
+                <label  >Email</label>
+                <input class="form-control" formControlName="Email" type="text" >
+            </div>
+            <div formGroupName="Passwords">
+                <div class="form-group ">
+                    <label class="required" >Password</label>
+                    <input class="form-control" formControlName="Password" type="password" >
+                    <label class="text-danger" *ngIf="service.formModel.get('Passwords.Password').touched && service.formModel.get('Passwords.Password').errors?.required">can't be empty</label>
+                    <label class="text-danger" *ngIf="service.formModel.get('Passwords.Password').touched && service.formModel.get('Passwords.Password').errors?.minlength">min 4 charachters</label>
+
+                </div>
+                <div class="form-group">
+                    <label class=" required" >Confirm password</label>
+                    <input class="form-control" formControlName="ConfirmPassword" type="password" >
+                    <label class="text-danger" *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">password mismatched</label>
+                    <span style="color:white"><span style="color: red;">*</span >  required fields</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8 offset-md-2">
+                    <button type="submit" class="btn btn-lg " [disabled]="!service.formModel.valid">sign up</button>
+                </div>
+            </div>
+        </form>
+   
+

@@ -1,0 +1,12 @@
+<nav class="navbar navbar-dark bg-dark">
+    <a href="" class="navbar-brand text-white">Tokens</a>
+    <button class="btn btn-danger" (click)='onLogout()'>Logout</button>
+  </nav>
+
+<div class="card-m-5" style="width: 20rem;" *ngIf="userDetails">
+  <ul class="list-group">
+    <li class="list-group-item">user name:{{userDetails.userName}}</li>
+    <li class="list-group-item">user id:{{userDetails.id}}</li>
+
+  </ul>
+</div>
